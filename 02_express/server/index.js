@@ -15,7 +15,7 @@ app.get('/wait', function(req, res, next) {
   }, 5000);
 });
 
-// allow specifying
+// allow specifying delay
 app.get('/waitfor/:time', function(req, res, next) {
   const timeConvertedToMilliseconds = req.params.time * 1000;
   setTimeout(function toBeRunLater() {
@@ -24,7 +24,12 @@ app.get('/waitfor/:time', function(req, res, next) {
   }, timeConvertedToMilliseconds);
 });
 
-// get all messages
+// hitting a specific route
+app.get('/hitme', function(req, res) {
+  res.send('baby one more time');
+});
+
+// catch-all route
 app.get('/*', function(req, res) {
   res.send('hello sucka');
 });
