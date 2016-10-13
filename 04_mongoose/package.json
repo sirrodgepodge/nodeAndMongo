@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "babel-core": "^6.17.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "chalk": "^1.1.3",
+    "mongoose": "^4.6.3",
+    "morgan-body": "^0.9.4"
+  }
+}
