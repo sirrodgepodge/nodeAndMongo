@@ -2,5 +2,6 @@
   "extends": "airbnb",
   "rules": {
     "no-empty-label": 0,
+    "global-require": 0
   }
 }

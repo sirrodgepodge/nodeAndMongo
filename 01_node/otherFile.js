@@ -1,5 +1,5 @@
 const iWillGetExported = {
-  prop: 'val'
+  prop: 'val',
 };
 
 export default iWillGetExported;

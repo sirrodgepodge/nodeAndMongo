@@ -1,13 +1,15 @@
 import express from 'express';
 import logger from 'morgan-body'; // express middleware
 import routesHandler from './routes'; // app routes handler
-import startDbPromise from '../db';
 
 // initialize express app
 const app = express();
 
 // hook logger to express app, thing that shows incoming requests in console
 logger(app);
+
+// routes
+routesHandler(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -26,10 +28,6 @@ app.use((err, req, res) => {
   });
 });
 
-startDbPromise.then(() => {
-  // routes
-  routesHandler(app);
-  // begin listening for requests, i.e. initialize server
-  app.listen(3000, () =>
-    console.log('app up and running at http://localhost:3000')); // eslint-disable-line no-console
-});
+// begin listening for requests, i.e. initialize server
+app.listen(3000, () =>
+  console.log('app up and running at http://localhost:3000')); // eslint-disable-line no-console

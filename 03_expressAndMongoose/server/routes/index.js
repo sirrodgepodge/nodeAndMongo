@@ -1,41 +1,46 @@
 import mongoose from 'mongoose';
 
+// pull message model off mongoose, works because Node uses singletons for imports/requires!!!
+const Message = mongoose.model('Message');
+
 
 export default function (app) {
-  // pull message model off mongoose, works because Node uses singletons for imports/requires!!!
-  const Message = mongoose.model('Message');
+  // get all messages
+  app.get('/', (req, res, next) =>
+    Message.find({}, null, { sort: '-createdDate' })
+      .then(allMessages => res.json(allMessages))
+      .catch(next)
+  );
 
+  // get specific message
   app.get('/message/:id', (req, res, next) =>
     Message.findById(req.params.id)
-      .then(allPosts => res.json(allPosts))
+      .then(specificMessage => res.json(specificMessage))
       .catch(next)
   );
 
-  app.get('/message', (req, res, next) =>
-    Message.find({}, null, { sort: '-createdDate' })
-      .then(allPosts => res.json(allPosts))
-      .catch(next)
-  );
-
-  app.post('/saveMessage/:messageString', (req, res, next) => {
-    const newMessage = new Message(req.params.messageString);
+  // save a message
+  app.post('/message/:messageString', (req, res, next) => {
+    const newMessage = new Message({ content: req.params.messageString });
     newMessage.save()
-      .then(savedPost => res.json(savedPost))
+      .then(savedMessage => res.json(savedMessage))
       .catch(next);
   });
 
+  // update a message
   app.put('/message/:id/:newMessageString', (req, res, next) =>
     // new option here says return the updated object to the following promise
     Message.findByIdAndUpdate(req.params.id, {
       content: req.params.newMessageString,
     }, { new: true })
-      .then(updatedPost => res.status(200).json(updatedPost))
+      .then(updatedMessage => res.status(200).json(updatedMessage))
       .catch(next)
   );
 
+  // delete a message
   app.delete('/message/:id', (req, res, next) =>
     Message.findByIdAndRemove(req.params.id)
-      .then(deletedPost => res.status(200).json(deletedPost))
+      .then(deletedMessage => res.status(200).json(deletedMessage))
       .catch(next)
   );
 }
